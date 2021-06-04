@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="parent_relative_layout" type="id">parent_relative_layout</item>
+</resources>

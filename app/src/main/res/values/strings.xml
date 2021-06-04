@@ -1,9 +1,7 @@
 <resources>
-    <string name="app_name">ourMoody</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
-    <string name="moody_user">Mood of the user</string>
-    <string name="moody_history_button"Button for moody history</string>
+    <string name="app_name">moodyTest</string>
+    <string name="moodyOfTheUser">User\'s mood</string>
+    <string name="ourMoody_entry_button">ourMoody Entry Button</string>
+    <string name="addCommentButton">add Comment Button</string>
 
 </resources>

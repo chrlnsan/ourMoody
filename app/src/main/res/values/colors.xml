@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<color>
-    <color name="colorPrimary">#FBE8A6</color>
+<resources>
 
-    <!--moody color-->
-    <!-- source: https://www.color-hex.com/color-palette/5361 -->
-    <color name="colorREAAALLYHappy">#FFDF96</color>
-    <color name="colorHappy">#D2FF95</color>
+    <!-- mood color -->
+    <!-- source https://www.color-hex.com/color-palette/2922-->
+    <color name="colorHappy">#dcedc1</color>
 
 </resources>

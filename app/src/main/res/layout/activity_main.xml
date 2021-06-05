@@ -30,7 +30,7 @@
         android:src="drawable/ic_history_black"
         />
 
-    <!-- history-activity hier hinzufuegen: -->
+    <!-- entries-activity hier hinzufuegen: -->
    <ImageButton
        android:id="@+id/btn_ourMoody_entries"
        android:layout_width="wrap_content"

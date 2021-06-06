@@ -3,5 +3,7 @@
     <string name="moodyOfTheUser">User\'s mood</string>
     <string name="ourMoody_entry_button">ourMoody Entry Button</string>
     <string name="addCommentButton">add Comment Button</string>
-
+    <string name="yesterday">Yesterday</string>
+    <string name="today">Today</string>
+    <string name="days_ago">days ago</string>
 </resources>

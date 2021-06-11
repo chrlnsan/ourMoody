@@ -1,5 +1,6 @@
 package com.example.ourmoody;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GestureDetectorCompat;
@@ -7,6 +8,9 @@ import androidx.core.view.GestureDetectorCompat;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.hardware.biometrics.BiometricManager;
+import android.hardware.biometrics.BiometricPrompt;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.SyncStateContract;
@@ -35,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
     private SharedPreferences mPreferences;
     private int currentDate;
     private int currentMoodIndex;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,9 +92,8 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
                 startActivity(intent);
             }
         });
+
     }
-
-
 
 
 

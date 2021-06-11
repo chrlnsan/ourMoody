@@ -1,9 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- mood color -->
+    <!-- mood colors -->
     <!-- source https://www.color-hex.com/color-palette/2922-->
-    <color name="colorREAAALLYHappy">#ADFF02</color>
-    <color name="colorHappy">#dcedc1</color>
+    <!-- color palettes: https://coolors.co/palettes/trending -->
+    <color name="colorREAAALLYHappy">#ffd166</color>
+    <color name="colorHappy">#f4a261</color>
+    <color name="colorNeutral">#caffbf</color>
+    <color name="colorSad">#118ab2</color>
+    <color name="colorSuperSad">#073b4c</color>
 
+>>>>>>> Stashed changes
+
+    <color name="SilverPink">#c1aba6</color>
+    <color name="OldLavender">#706677</color>
+    <color name="NeonBlue">#5465ff</color>
+    <color name="Cornflower">#788bff</color>
+    <color name="Lilac">#9bb1ff</color>
+    <color name="LightBlue">#bfd7ff</color>
+    <color name="black">#000</color>
+    <color name="LightCyan">#e2fdff</color>
+    <color name="Rose">#d991ba</color>
+    <color name="Mauve">#612940</color>
+    <color name="LightPink">#fdecef</color>
+    <color name="LightGray">#cecccc</color>
 </resources>

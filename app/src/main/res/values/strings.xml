@@ -6,4 +6,8 @@
     <string name="yesterday">Yesterday</string>
     <string name="today">Today</string>
     <string name="days_ago">days ago</string>
+
+    <!-- Scan -->
+    <string name="resultDisplay">Result Display...</string>
+    <string name="fingerScanButton">fingerScan</string>
 </resources>

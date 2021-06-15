@@ -5,9 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     >
     <androidx.recyclerview.widget.RecyclerView
+        tools:listItem="@layout/item_mood"
         android:id="@+id/recycler_ourMoodys"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listItem="@layout/item_mood"/>
+        />
 
 </RelativeLayout>

@@ -1,3 +1,4 @@
+/*
 package com.example.ourmoody;
 
 import android.hardware.biometrics.BiometricManager;
@@ -91,3 +92,5 @@ public class FingerScan_Login extends AppCompatActivity {
     };
 
 };
+
+*/

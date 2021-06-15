@@ -31,7 +31,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -43,9 +42,9 @@
                         android:id="@+id/imageView"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
-                        app:srcCompat="@drawable/ic_sunny" />
+                        android:src="@drawable/ic_sunny" />
 
-                    <EditText
+                    <TextView
                         android:id="@+id/etDate"
                         android:layout_width="72dp"
                         android:layout_height="match_parent"
@@ -62,37 +61,12 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <EditText
-                    android:id="@+id/etTag"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:inputType="text"
-                    android:text="fatigue" />
+                <ImageButton
+                    android:layout_width="93dp"
+                    android:layout_height="84dp"
+                    android:layout_gravity="right"
+                    android:src="@drawable/ic_show_comment" />
 
-                <EditText
-                    android:id="@+id/etTag4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:inputType="text"
-                    android:text="meditation" />
-
-                <EditText
-                    android:id="@+id/etTag5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:inputType="text"
-                    android:text="work" />
-
-                <EditText
-                    android:id="@+id/etTag2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:inputType="text"
-                    android:text="yoga" />
 
             </LinearLayout>
 

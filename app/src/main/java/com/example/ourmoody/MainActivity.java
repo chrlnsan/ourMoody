@@ -5,6 +5,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GestureDetectorCompat;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,6 +29,8 @@ import android.widget.Toast;
 
 import com.example.ourmoody.util.Constants;
 
+import java.util.Calendar;
+
 public class MainActivity extends AppCompatActivity implements GestureDetector.OnGestureListener {
 
     private static final String TAG = "MainActivity";
@@ -39,13 +44,14 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
     private SharedPreferences mPreferences;
     private int currentDate;
     private int currentMoodIndex;
+    private String currentComment;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.d(TAG, "oncreate: MainActivity");
+        Log.d(TAG, "onCreate: MainActivity");
 
         moodImageView = findViewById(R.id.my_moody);
         parentRelativeLayout = findViewById(R.id.parent_relative_layout);
@@ -55,7 +61,12 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
         mDetector = new GestureDetectorCompat(this, this);
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
+        currentDate = mPreferences.getInt(SharedPreferencesHelp.KEY_CURRENT_DAY,1);
         currentMoodIndex = mPreferences.getInt(SharedPreferencesHelp.KEY_CURRENT_MOODY, 3);
+        currentComment = mPreferences.getString(SharedPreferencesHelp.KEY_CURRENT_COMMENT," ");
+
+        changeMoody(currentMoodIndex);
+
 
         //Adding Comments to describe mood better
         addCommentButton.setOnClickListener(new View.OnClickListener(){
@@ -80,7 +91,8 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
                         dialog.cancel();
                         Toast.makeText(MainActivity.this, "Comment deleted", Toast.LENGTH_SHORT).show();
                     }
-                }) .create().show();
+                })
+                        .create().show();
             }
         });
 
@@ -145,11 +157,28 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
 
     }
 
-
+    //Change Mood Methode
     private void changeMoody (int currentMoodIndex){
     moodImageView.setImageResource(Constants.moodImagesArray[currentMoodIndex]);
     parentRelativeLayout.setBackgroundResource(Constants.moodColorsArray[currentMoodIndex]);
     }
+
+    // Benachrichtigungen
+    private void scheduleAlarm(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent (this, DayReciever.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        if(alarmManager!=null) {
+            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+        }
+
+        }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event){

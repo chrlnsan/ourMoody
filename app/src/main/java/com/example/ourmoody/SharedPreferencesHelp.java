@@ -11,6 +11,7 @@ public class SharedPreferencesHelp {
 
     public static final String KEY_CURRENT_COMMENT = "KEY_CURRENT_COMMENT";
 
+    //COMMENTS
     public static final String KEY_COMMENT0 = "KEY_COMMENT0";
     public static final String KEY_COMMENT1 = "KEY_COMMENT1";
     public static final String KEY_COMMENT2 = "KEY_COMMENT2";
@@ -19,6 +20,7 @@ public class SharedPreferencesHelp {
     public static final String KEY_COMMENT5 = "KEY_COMMENT5";
     public static final String KEY_COMMENT6 = "KEY_COMMENT6";
 
+    //MOODS
     public static final String KEY_MOOD0 = "KEY_MOOD0";
     public static final String KEY_MOOD1 = "KEY_MOOD1";
     public static final String KEY_MOOD2 = "KEY_MOOD2";
@@ -27,6 +29,7 @@ public class SharedPreferencesHelp {
     public static final String KEY_MOOD5 = "KEY_MOOD5";
     public static final String KEY_MOOD6 = "KEY_MOOD6";
 
+    //SAVE MOOD
     public static void saveMood(int moodIndex, int currentDay, SharedPreferences preferences) {
         preferences.edit().putInt(KEY_CURRENT_MOODY, moodIndex).apply();
         switch (currentDay) {

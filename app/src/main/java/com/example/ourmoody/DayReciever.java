@@ -1,13 +1,12 @@
+package com.example.ourmoody;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.example.ourmoody.SharedPreferencesHelp;
-
-public class DayReceiver extends BroadcastReceiver {
-
+public class DayReciever extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         SharedPreferences mPreferences = PreferenceManager.getDefaultSharedPreferences(context);

@@ -35,6 +35,10 @@ public class Entries extends AppCompatActivity{
         moodyRecyclerview = findViewById(R.id.recycler_ourMoodys);
         moodyRecyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true));
 
+        for(int i=0; i<currentDate; i++){
+            moods.add(mPreferences.getInt("KEY_MOOD" + i, 3));
+            comments.add(mPreferences.getString("KEY_COMMENT"+ i, ""));
+        }
 
         ourMoodyAdapter = new ourMoodyAdapter(this, currentDate, moods, comments);
         moodyRecyclerview.setAdapter(ourMoodyAdapter);

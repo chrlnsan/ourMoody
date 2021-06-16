@@ -1,6 +1,5 @@
 package com.example.ourmoody;
 
-import android.hardware.biometrics.BiometricManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.biometric.BiometricManager;
 import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
 
@@ -40,6 +40,8 @@ public class FingerScan_Login extends AppCompatActivity {
 
         resultDisplay = findViewById(R.id.resultDisplay);
         fingerScanButton = findViewById(R.id.fingerScanButton);
+
+        final int fingerprintAuthDrawable;
 
         executor = ContextCompat.getMainExecutor(this);
 
@@ -76,17 +78,15 @@ public class FingerScan_Login extends AppCompatActivity {
                 .setConfirmationRequired(false)
                 .build();
 
-//Meldung gibt folgendes an:
-//Call requires API level 29 (current min is 28): `android.hardware.biometrics.BiometricManager#canAuthenticate`
-// wir muessen das API level erhöhen von 28 -> 29
-    public void fingerScanButton (View view){
+
+    public void fingerScanButton(View resultDisplay){
         BiometricManager biometricManager = BiometricManager.from(this);
         if(biometricManager.canAuthenticate() != BiometricManager.BIOMETRIC_SUCCESS){
-            textView.setText("Biometric not supported");
+            resultDisplay.setText("Biometric not supported");
             return;
         }
 
-        biometricPrompt.authenticate(promptInfo);
+            biometricPrompt.authenticate(promptInfo);
         }
     };
 

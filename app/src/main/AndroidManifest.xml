@@ -17,6 +17,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".Entries" />
+
+        <receiver
+            android:name=".DayReciever"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">moodyTest</string>
+    <string name="app_name">ourMoody</string>
     <string name="moodyOfTheUser">User\'s mood</string>
     <string name="ourMoody_entry_button">ourMoody Entry Button</string>
     <string name="addCommentButton">add Comment Button</string>

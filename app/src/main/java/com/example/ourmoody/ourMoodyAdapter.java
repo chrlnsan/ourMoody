@@ -24,7 +24,7 @@ public class ourMoodyAdapter extends RecyclerView.Adapter<ourMoodyAdapter.MoodVi
     private ArrayList<Integer> mMoods;
     private ArrayList<String> mComments;
 
-    //*** Constructor*
+    // Constructor
     public ourMoodyAdapter(Context context, int currentDay, ArrayList<Integer> moods, ArrayList<String> comments) {
         this.mContext = context;
         this.mCurrentDate = currentDay;
@@ -52,34 +52,11 @@ public class ourMoodyAdapter extends RecyclerView.Adapter<ourMoodyAdapter.MoodVi
                 moodViewHolder.daysTextView.setText(daysAgoText);
         }
 
+
         int mood = mMoods.get(i);
-        LinearLayout.LayoutParams leftLayoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
-        LinearLayout.LayoutParams rightLayoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
-        float weight;
-        switch (mood) {
-            case 0:
-                weight = 0.2f;
-                break;
-            case 1:
-                weight = 0.4f;
-                break;
-            case 2:
-                weight = 0.6f;
-                break;
-            case 3:
-                weight = 0.8f;
-                break;
-            case 4:
-                weight = 1.0f;
-                break;
-            default:
-                weight = 0.8f;
-        }
-        leftLayoutParams.weight = weight;
-        rightLayoutParams.weight = 1.0f - weight;
-        moodViewHolder.leftFrameLayout.setLayoutParams(leftLayoutParams);
-        moodViewHolder.rightFrameLayout.setLayoutParams(rightLayoutParams);
         moodViewHolder.leftFrameLayout.setBackgroundResource(Constants.moodColorsArray[mood]);
+
+
 
         // if there's a comment, show the icon and a toast on click
         final String comment = mComments.get(i);
@@ -98,6 +75,7 @@ public class ourMoodyAdapter extends RecyclerView.Adapter<ourMoodyAdapter.MoodVi
 
     @Override
     public int getItemCount() {
+
         return mMoods.size();
     }
 

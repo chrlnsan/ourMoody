@@ -77,7 +77,7 @@ public class FingerScan_Login extends AppCompatActivity {
                 fingerScanButton.setVisibility(View.GONE);
                 break;
         }
-        /* Usprünglicher Code zum Überprüfen ob Biometrischer Sensor eingebaut ist, wurde durch obigen Code ersetzt
+        /* Urspruenglicher Code zum Checken ob biometrischer Sensor eingebaut ist, wurde durch obigen Code ersetzt
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             biometricManager = (BiometricManager) getSystemService(BIOMETRIC_SERVICE);
         }*/

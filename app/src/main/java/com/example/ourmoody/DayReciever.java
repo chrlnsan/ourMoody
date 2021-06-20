@@ -9,7 +9,8 @@ import android.preference.PreferenceManager;
 public class DayReciever extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        SharedPreferences mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+       SharedPreferences mPreferences;
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         int currentDay = mPreferences.getInt(SharedPreferencesHelp.KEY_CURRENT_DAY,1);
         currentDay++;

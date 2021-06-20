@@ -10,7 +10,19 @@
     <color name="colorSad">#118ab2</color>
     <color name="colorSuperSad">#073b4c</color>
 
+    <!-- colours for gradient Arten -->
+    <color name="verlauf_start_color">#77bfa3</color>
+    <color name="verlauf_ende_color">#bfd8bd</color>
+    <color name="verlauf_background_color">#bfd8bd</color>
+
+    <!-- colours for activity-start-button -->
+    <color name="btn_weiter">#77bfa3</color>
+
+    <!-- colours for tab and screen text-->
+    <color name=""></color>
+
 >>>>>>> Stashed changes
+    <color name="JustWhite">#ffffff</color>
 
     <color name="SilverPink">#c1aba6</color>
     <color name="OldLavender">#706677</color>

@@ -38,7 +38,8 @@
         android:textColor="@color/JustWhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:rippleColor="#FFFFFF" />
+        app:rippleColor="#FFFFFF"
+        android:layout_marginRight="32dp" />
 
     <com.google.android.material.tabs.TabLayout
         android:layout_width="wrap_content"

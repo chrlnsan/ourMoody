@@ -29,7 +29,11 @@ import android.widget.Toast;
 
 import com.example.ourmoody.util.Constants;
 
+import org.json.JSONObject;
+
+import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements GestureDetector.OnGestureListener {
 
@@ -66,6 +70,8 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
         currentComment = mPreferences.getString(SharedPreferencesHelp.KEY_CURRENT_COMMENT," ");
 
         changeMoody(currentMoodIndex);
+
+
 
 
         //Adding Comments to describe mood better
@@ -184,5 +190,6 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
     public boolean onTouchEvent(MotionEvent event){
         return mDetector.onTouchEvent(event);
     }
+
 
 }

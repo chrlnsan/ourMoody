@@ -19,6 +19,7 @@
         </activity>
 
         <activity android:name=".Entries" />
+        <activity android:name=".FingerScan_Login"/>
 
         <receiver
             android:name=".DayReciever"

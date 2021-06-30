@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/LightCyan">
+    android:background="@color/colorNeutral"
+    >
 
     <TextView
         android:id="@+id/resultDisplay"
         android:layout_width="227dp"
         android:layout_height="126dp"
         android:gravity="center_vertical"
-        android:text="Lege zum Entsperren den Fingersxan"
+        android:text="Lege zum Entsperren den Fingerscan"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textSize="24sp"

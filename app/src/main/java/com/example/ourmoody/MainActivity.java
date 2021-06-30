@@ -7,10 +7,14 @@ import androidx.core.view.GestureDetectorCompat;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.job.JobScheduler;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.hardware.biometrics.BiometricManager;
 import android.hardware.biometrics.BiometricPrompt;
 import android.os.Build;
@@ -164,11 +168,11 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
     }
 
     // Benachrichtigungen
-    private void scheduleAlarm(){
+   /* private void scheduleAlarm(){
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 14);
         calendar.set(Calendar.MINUTE, 00);
-        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.SECOND, 00);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent (this, DayReciever.class);
@@ -177,7 +181,49 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
             alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         }
 
+        }*/
+
+    public static void scheduleAlarm(Context context, DayReciever.class, int hour, int min){
+        Calendar calendar = Calendar.getInstance();
+        Calendar setCalendar = Calendar.getInstance();
+        setCalendar.set(Calendar.HOUR_OF_DAY, 14);
+        setCalendar.set(Calendar.MINUTE, 00);
+        setCalendar.set(Calendar.SECOND, 00);
+        //zum Abbrechen von bereits geplanten Erinnerungen/Reminder/Benachrichtigungen
+        cancelReminder(context, DayReciever.class);
+
+        if(setCalendar.before(calendar)
+        setCalendar.add(Calendar.DATE, 1);
+
+        AlarmManager alarmMgr;
+
+        //Receiver freischalten
+        ComponentName receiver = new ComponentName(context, DayReciever.class);
+        PackageManager pm = context.getPackageManager();
+        pm.setComponentEnabledSetting(receiver,
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                PackageManager.DONT_KILL_APP);
+
+        Intent intent1 = new Intent(context, DayReciever.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context,1, intent1,
+                                    PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+        //hier wird die methode taeglich bzw. alle 24 Stunden aufgerufen
+        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, setCalendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+    }
+
+    // Alarm-/Benachrichtigungs-Trigger
+    public class AlarmReceiver extends BroadcastReceiver{
+        String TAG = "AlarmReceiver";
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            JobScheduler jobScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+            //Triggered die notification
+            JobScheduler.showNotification();
+
         }
+    }
 
 
     @Override

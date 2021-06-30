@@ -16,4 +16,6 @@
     <string name="City">Graz</string>
     <string name="open_weather_maps_app_id">a8de24b6eafaefc7e599fa726832d039</string>
     <string name="place_not_found">The city you entered has not been found</string>
+    <string name="weather_icon">weather icon</string>
+    <string name="why">Why do you feel this way?</string>
 </resources>

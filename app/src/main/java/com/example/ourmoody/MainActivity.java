@@ -54,8 +54,10 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         Log.d(TAG, "onCreate: MainActivity");
+
 
         moodImageView = findViewById(R.id.my_moody);
         parentRelativeLayout = findViewById(R.id.parent_relative_layout);
@@ -81,11 +83,11 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 final EditText editText= new EditText(MainActivity.this);
 
-                builder.setMessage("Why do you feel this way?").setView(editText).setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                builder.setMessage(R.string.why).setView(editText).setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if(!editText.getText().toString().isEmpty()){
-                            //SharedPreferences
+                            SharedPreferencesHelp.saveComment(editText.getText().toString(), currentDate, mPreferences);
                         }
                         dialog.dismiss();
                         Toast.makeText(MainActivity.this, "Comment saved", Toast.LENGTH_SHORT).show();

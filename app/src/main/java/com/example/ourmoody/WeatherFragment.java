@@ -2,14 +2,20 @@ package com.example.ourmoody;
 
 import android.app.Activity;
 import android.content.Context;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+
+import com.example.ourmoody.util.Constants;
 
 import org.json.JSONObject;
 
@@ -17,14 +23,15 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import static android.app.PendingIntent.getActivities;
 import static android.app.PendingIntent.getActivity;
 import static com.example.ourmoody.R.string.place_not_found;
 import static java.lang.String.valueOf;
 import static java.security.AccessController.getContext;
 
-public class WeatherFragment {
+public class WeatherFragment extends Fragment {
     private TextView cityField;
-    private TextView weatherIcon;
+    private ImageView weatherIcon;
     private TextView updatedField;
     private TextView currentTemperatureField;
     private TextView detailsField;
@@ -47,7 +54,7 @@ public class WeatherFragment {
 
         currentTemperatureField = (TextView)rootView.findViewById(R.id.temp);
 
-        weatherIcon = rootView.findViewById(R.id.weather_icon);
+        weatherIcon = (ImageView)rootView.findViewById(R.id.weather_icon);
 
         detailsField = (TextView)rootView.findViewById(R.id.details);
 
@@ -98,19 +105,22 @@ public class WeatherFragment {
                 String updatedOn = df.format(new Date(json.getLong("dt") * 1000));
                 updatedField.setText("Last update: " + updatedOn);
 
-       /*setWeatherIcon(details.getInt("id"),
-               json.getJSONObject("sys").getLong("sunrise") * 1000,
-               json.getJSONObject("sys").getLong("sunset") * 1000);
-        */
+                setWeatherIcon(details.getInt("id"),
+               json.getJSONObject("weather").getString("main"),
+               json.getJSONObject("weather").getString("description"));
+
+
             } catch (Exception e) {
                 Log.e("SimpleWeather", "Field not present in JSON Received");
             }
         }
-        /*
-    private void setWeatherIcon(int actualId, long sunrise, long sunset){
+
+    private void setWeatherIcon(int actualId, String main, String description){
         int id = actualId / 100;
         String icon = "";
+        /*
         if(actualId == 800){
+
             long currentTime = new Date().getTime();
             if(currentTime>=sunrise && currentTime<sunset) {
                 icon = getActivity().getString(R.string.weather_sunny);
@@ -118,24 +128,26 @@ public class WeatherFragment {
                 icon = getActivity().getString(R.string.weather_clear_night);
             }
         } else {
+        */
+
             switch(id) {
-                case 2 : icon = getActivity().getString(R.string.weather_thunder);
+                case 2 : weatherIcon.setImageResource(Constants.weatherIconArray[0]);
                     break;
-                case 3 : icon = getActivity().getString(R.string.weather_drizzle);
+                case 3 : weatherIcon.setImageResource(Constants.weatherIconArray[4]);
                     break;
-                case 7 : icon = getActivity().getString(R.string.weather_foggy);
+                case 5 : weatherIcon.setImageResource(Constants.weatherIconArray[5]);
                     break;
-                case 8 : icon = getActivity().getString(R.string.weather_cloudy);
+                case 6 : weatherIcon.setImageResource(Constants.weatherIconArray[7]);
                     break;
-                case 6 : icon = getActivity().getString(R.string.weather_snowy);
+                case 7 : weatherIcon.setImageResource(Constants.weatherIconArray[8]);
                     break;
-                case 5 : icon = getActivity().getString(R.string.weather_rainy);
+                case 8 : weatherIcon.setImageResource(Constants.weatherIconArray[3]);
                     break;
+                default: weatherIcon.setImageResource(Constants.weatherIconArray[9]);
             }
         }
-        weatherIcon.setText(icon);
-    }
-    */
+
+
     public void changeCity(String city){
         updateWeatherData(city);
     }

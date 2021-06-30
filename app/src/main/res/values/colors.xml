@@ -19,6 +19,7 @@
     <color name="btn_weiter">#77bfa3</color>
 
     <!-- colours for tab and screen text-->
+    <color name="x"></color>
 
 >>>>>>> Stashed changes
     <color name="JustWhite">#ffffff</color>
@@ -31,7 +32,7 @@
     <color name="LightBlue">#bfd7ff</color>
     <color name="black">#000</color>
     <color name="LightCyan">#e2fdff</color>
-    <color name="Rose">#53060c</color>
+    <color name="Rose">#d991ba</color>
     <color name="Mauve">#612940</color>
     <color name="LightPink">#fdecef</color>
     <color name="LightGray">#cecccc</color>

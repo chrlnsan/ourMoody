@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/mood_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:listItem="@layout/recycle_mood_item" />
+
+    <ImageButton
+        android:id="@+id/btn_ourMoody_entries"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|center_vertical"
+        android:background="@null"
+        android:contentDescription="@string/ourMoody_entry_button"
+        android:src="@drawable/ic_history_black" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|center_vertical"
+        android:background="@null"
+        android:src="@drawable/ic_comment_black" />
+
+
+</LinearLayout>

@@ -2,6 +2,7 @@ package com.example.ourmoody;
 
 import android.app.Activity;
 import android.content.Context;
+import android.location.LocationManager;
 import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
@@ -46,7 +47,7 @@ public class WeatherFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.item_mood, container, false);
+        View rootView = inflater.inflate(R.layout.weather_fragment, container, true);
 
         updatedField = (TextView)rootView.findViewById(R.id.updated_field);
 
@@ -58,8 +59,12 @@ public class WeatherFragment extends Fragment {
 
         detailsField = (TextView)rootView.findViewById(R.id.details);
 
-
         return rootView;
+    }
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        updateWeatherData(new CityPreference(getActivity()).getCity());
     }
 
         private void updateWeatherData(final String city){

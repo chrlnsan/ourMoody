@@ -2,10 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ourmoody">
 
-    <uses-sdk
-        android:minSdkVersion="21"
-        />
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
         android:allowBackup="true"
@@ -14,7 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".MainActivity">
+
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait"
+            >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,10 +28,12 @@
         <activity android:name=".Entries" />
         <activity android:name=".FingerScan_Login"/>
 
+
         <receiver
             android:name=".DayReciever"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"
+            android:permission="true" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"

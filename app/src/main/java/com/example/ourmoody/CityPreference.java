@@ -16,7 +16,7 @@ public class CityPreference {
         return mPreference.getString("city", "Graz, AUT");
     }
 
-    void setCity(String city){
+    void setCity(String city) {
         mPreference.edit().putString("city", city).commit();
     }
 }

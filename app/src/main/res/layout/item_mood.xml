@@ -29,49 +29,12 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <FrameLayout
+            <fragment
+                android:id="@+id/fragment"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/weather_fragment">
-
-                <TextView
-                    android:id="@+id/temp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/temperature"
-                    android:textColor="#000000" />
-
-                <TextView
-                android:id="@+id/updated_field"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#000000"
-                />
-
-                <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/details" />
-
-            <ImageView
-                android:id="@+id/weather_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/weather_icon"
-                android:src="@drawable/ic_sunny" />
-
-
-            <TextView
-                android:id="@+id/city"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-
-                android:text="@string/City"
-                android:textColor="#000000" />
-
-            </FrameLayout>
+                android:name="com.example.ourmoody.WeatherFragment"
+                tools:layout="@layout/weather_fragment" />
 
         </LinearLayout>
 

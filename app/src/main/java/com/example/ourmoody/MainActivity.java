@@ -31,6 +31,8 @@ import android.preference.PreferenceManager;
 import android.provider.SyncStateContract;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -201,7 +203,9 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
 
         }*/
 
-    public static void scheduleAlarm(Context context, DayReciever.class, int hour, int min){
+
+
+    public static void scheduleAlarm(Context context, DayReciever.class , int hour, int min){
         Calendar calendar = Calendar.getInstance();
         Calendar setCalendar = Calendar.getInstance();
         setCalendar.set(Calendar.HOUR_OF_DAY, 14);
@@ -251,6 +255,8 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
         }
     }
 
+
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     public  void shownotify(Context context, Class<?> cls, String title, String content){
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -292,6 +298,12 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.weather, menu);
+        return true;
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event){

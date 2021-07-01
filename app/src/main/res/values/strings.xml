@@ -21,4 +21,8 @@
 
     <!-- Notification -->
     <string name="default_notification_channel_id">default</string>
+    <string name="weiter">Weiter</string>
+    <string name="los">Jetzt geht\'s los!</string>
+    <string name="skip">Skip</string>
+    <string name="change_notif">Notifications</string>
 </resources>

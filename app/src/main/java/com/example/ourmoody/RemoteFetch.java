@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+    // Wetter von OpenWeatherMap API abrufen
 public class RemoteFetch {
     private static final String OPEN_WEATHER_MAP_API =
             "http://api.openweathermap.org/data/2.5/weather?q=%s&units=metric";
@@ -20,7 +21,7 @@ public class RemoteFetch {
                     (HttpURLConnection)url.openConnection();
 
             connection.addRequestProperty("x-api-key",
-                    context.getString(R.string.open_weather_maps_app_id));
+                    String.valueOf(R.string.open_weather_maps_app_id));
 
 
 

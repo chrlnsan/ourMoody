@@ -3,10 +3,16 @@ package com.example.ourmoody;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GestureDetectorCompat;
 
 import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.app.job.JobScheduler;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -17,6 +23,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.hardware.biometrics.BiometricManager;
 import android.hardware.biometrics.BiometricPrompt;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -38,6 +46,8 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import static android.media.RingtoneManager.*;
 
 public class MainActivity extends AppCompatActivity implements GestureDetector.OnGestureListener {
 
@@ -197,10 +207,8 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
         setCalendar.set(Calendar.HOUR_OF_DAY, 14);
         setCalendar.set(Calendar.MINUTE, 00);
         setCalendar.set(Calendar.SECOND, 00);
-        //zum Abbrechen von bereits geplanten Erinnerungen/Reminder/Benachrichtigungen
-        cancelReminder(context, DayReciever.class);
 
-        if(setCalendar.before(calendar)
+        if(setCalendar.before(calendar))
         setCalendar.add(Calendar.DATE, 1);
 
         AlarmManager alarmMgr;
@@ -218,6 +226,15 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
         AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
         //hier wird die methode taeglich bzw. alle 24 Stunden aufgerufen
         am.setInexactRepeating(AlarmManager.RTC_WAKEUP, setCalendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
+
+        //zum Abbrechen von bereits geplanten Erinnerungen/Reminder/Benachrichtigungen
+        am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent  intent2 = new Intent(String.valueOf(DayReciever.class));
+        PendingIntent   pm2 = PendingIntent.getBroadcast(
+                context.getApplicationContext(), 1, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        am.cancel(pendingIntent);
     }
 
     // Alarm-/Benachrichtigungs-Trigger
@@ -228,9 +245,51 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
         public void onReceive(Context context, Intent intent) {
             JobScheduler jobScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
             //Triggered die notification
-            JobScheduler.showNotification();
+            jobScheduler.shownotify(context, MainActivity.class, "ourMoody-Reminder",
+                    "Wie fühlst du dich gerade? Trage deinen derzeitigen Zustand ein :)");
 
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public  void shownotify(Context context, Class<?> cls, String title, String content){
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+        Intent notificationIntent = new Intent(context, cls);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        stackBuilder.addParentStack(cls);
+        stackBuilder.addNextIntent(notificationIntent);
+
+        PendingIntent pendingIntent = stackBuilder.getPendingIntent(
+                1, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this,
+                getString(R.string.default_notification_channel_id));
+        Notification notification = builder.setContentTitle(title)
+                .setContentText(content).setAutoCancel(true)
+                .setSound(alarmSound).setSmallIcon(R.mipmap.ic_launcher_round)
+                .setContentIntent(pendingIntent).build();
+
+        /*
+        ----------
+        */
+
+
+/*
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+        Notification notification = builder.setContentTitle(title)
+                .setContentText(content).setAutoCancel(true)
+                .setSound(alarmSound).setSmallIcon(R.mipmap.ic_launcher_round)
+                .setContentIntent(pendingIntent).build();
+
+        NotificationManager notificationManager = (NotificationManager)
+                context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(1, notification);
+        */
+
+
     }
 
 

@@ -18,4 +18,7 @@
     <string name="place_not_found">The city you entered has not been found</string>
     <string name="weather_icon">weather icon</string>
     <string name="why">Why do you feel this way?</string>
+
+    <!-- Notification -->
+    <string name="default_notification_channel_id">default</string>
 </resources>

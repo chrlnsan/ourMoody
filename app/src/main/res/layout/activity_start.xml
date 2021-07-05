@@ -43,6 +43,7 @@
         app:layout_goneMarginRight="32dp" />
 
     <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabIndicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"

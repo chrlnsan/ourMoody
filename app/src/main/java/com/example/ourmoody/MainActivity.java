@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
 
 
 
-    public static void scheduleAlarm(Context context, DayReciever.class , int hour, int min){
+    public static void scheduleAlarm(Context context, DayReciever.class, int hour, int min){
         Calendar calendar = Calendar.getInstance();
         Calendar setCalendar = Calendar.getInstance();
         setCalendar.set(Calendar.HOUR_OF_DAY, 14);
@@ -224,6 +224,7 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                 PackageManager.DONT_KILL_APP);
 
+        //das Pendingintent dient zum Starten einer Activity -> hier: activity_main zum eintragen der mood
         Intent intent1 = new Intent(context, DayReciever.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context,1, intent1,
                                     PendingIntent.FLAG_UPDATE_CURRENT);

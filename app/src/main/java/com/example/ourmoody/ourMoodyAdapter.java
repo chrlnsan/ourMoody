@@ -19,22 +19,22 @@ import java.util.ArrayList;
 public class ourMoodyAdapter extends RecyclerView.Adapter<ourMoodyAdapter.MoodViewHolder> {
 
     private static final String TAG = "ourMoodyAdapter";
-    private Context mContext;
-    private int mCurrentDate;
-    private ArrayList<Integer> mMoods;
-    private ArrayList<String> mComments;
+    private Context omContext;
+    private int omCurrentDate;
+    private ArrayList<Integer> omMoods;
+    private ArrayList<String> omComments;
 
     // Constructor
     public ourMoodyAdapter(Context context, int currentDay, ArrayList<Integer> moods, ArrayList<String> comments) {
-        this.mContext = context;
-        this.mCurrentDate = currentDay;
-        this.mMoods = moods;
-        this.mComments = comments;
+        this.omContext = context;
+        this.omCurrentDate = currentDay;
+        this.omMoods = moods;
+        this.omComments = comments;
     }
 
     @Override
     public MoodViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_mood, viewGroup, false);
+        View view = LayoutInflater.from(omContext).inflate(R.layout.item_mood, viewGroup, false);
         return new MoodViewHolder(view);
     }
 
@@ -48,24 +48,24 @@ public class ourMoodyAdapter extends RecyclerView.Adapter<ourMoodyAdapter.MoodVi
                 moodViewHolder.daysTextView.setText(R.string.today);
                 break;
             default:
-                String daysAgoText = i + " " + mContext.getString(R.string.days_ago);
+                String daysAgoText = i + " " + omContext.getString(R.string.days_ago);
                 moodViewHolder.daysTextView.setText(daysAgoText);
         }
 
 
-        int mood = mMoods.get(i);
+        int mood = omMoods.get(i);
         moodViewHolder.leftFrameLayout.setBackgroundResource(Constants.moodColorsArray[mood]);
 
 
 
         // if there's a comment, show the icon and a toast on click
-        final String comment = mComments.get(i);
+        final String comment = omComments.get(i);
         if (comment != null && !comment.isEmpty()) {
             moodViewHolder.commentButton.setVisibility(View.VISIBLE);
             moodViewHolder.commentButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(mContext, comment, Toast.LENGTH_LONG).show();
+                    Toast.makeText(omContext, comment, Toast.LENGTH_LONG).show();
                 }
             });
         } else {
@@ -76,7 +76,7 @@ public class ourMoodyAdapter extends RecyclerView.Adapter<ourMoodyAdapter.MoodVi
     @Override
     public int getItemCount() {
 
-        return mMoods.size();
+        return omMoods.size();
     }
 
     public class MoodViewHolder extends RecyclerView.ViewHolder {

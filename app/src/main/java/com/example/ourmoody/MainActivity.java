@@ -1,12 +1,16 @@
 package com.example.ourmoody;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GestureDetectorCompat;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -23,11 +27,16 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.hardware.biometrics.BiometricManager;
 import android.hardware.biometrics.BiometricPrompt;
+import android.location.Location;
+import android.location.LocationManager;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.provider.SyncStateContract;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -39,21 +48,33 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ourmoody.util.Constants;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import static android.media.RingtoneManager.*;
 
 public class MainActivity extends AppCompatActivity implements GestureDetector.OnGestureListener {
 
     private static final String TAG = "MainActivity";
+    int PERMISSION_ID = 44;
 
     private ImageView moodImageView;
     private ImageButton moodHistoryButton;
@@ -65,13 +86,17 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
     private int currentDate;
     private int currentMoodIndex;
     private String currentComment;
+    private String LAT, LON;
 
+    FusedLocationProviderClient mFusedLocationClient;
+    TextView addressTxt, updated_atTxt, statusTxt, tempTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
         Log.d(TAG, "onCreate: MainActivity");
 
 
@@ -87,9 +112,18 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
         currentMoodIndex = mPreferences.getInt(SharedPreferencesHelp.KEY_CURRENT_MOODY, 3);
         currentComment = mPreferences.getString(SharedPreferencesHelp.KEY_CURRENT_COMMENT," ");
 
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        addressTxt = findViewById(R.id.city);
+        updated_atTxt = findViewById(R.id.updated_field);
+        statusTxt = findViewById(R.id.details);
+        tempTxt = findViewById(R.id.temp);
+
         changeMoody(currentMoodIndex);
 
+        getLastLocation();
 
+        new weatherTask().execute();
 
 
         //Adding Comments to describe mood better
@@ -160,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
     public void onLongPress(MotionEvent e) {
 
     }
- // Choose a mood by swiping up/down
+ // Stimmung auswählen durch rauf-/runterswipen
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
         if(e1.getY()-e2.getY()>50){
@@ -178,6 +212,100 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
             }
 
         } return true;
+
+    }
+
+    //Location Methoden
+    @SuppressLint("MissingPermission")
+    private void getLastLocation(){
+        if (checkPermissions()) {
+            if (isLocationEnabled()) {
+                mFusedLocationClient.getLastLocation().addOnCompleteListener(
+                        new OnCompleteListener<Location>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Location> task) {
+                                Location location = task.getResult();
+                                if (location == null) {
+                                    requestNewLocationData();
+                                } else {
+                                    LAT = location.getLatitude()+"";
+                                    LON = location.getLongitude()+"";
+                                }
+                            }
+                        }
+                );
+            } else {
+                Toast.makeText(this, "Turn on location", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+            }
+        } else {
+            requestPermissions();
+        }
+    }
+    @SuppressLint("MissingPermission")
+    private void requestNewLocationData(){
+
+        LocationRequest mLocationRequest = new LocationRequest();
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setInterval(0);
+        mLocationRequest.setFastestInterval(0);
+        mLocationRequest.setNumUpdates(1);
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        mFusedLocationClient.requestLocationUpdates(
+                mLocationRequest, mLocationCallback,
+                Looper.myLooper()
+        );
+
+    }
+    private LocationCallback mLocationCallback = new LocationCallback() {
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            Location mLastLocation = locationResult.getLastLocation();
+         LAT =   mLastLocation.getLatitude()+"";
+         LON = mLastLocation.getLongitude()+"";
+        }
+    };
+    private boolean checkPermissions() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        }
+        return false;
+    }
+
+    private void requestPermissions() {
+        ActivityCompat.requestPermissions(
+                this,
+                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
+                PERMISSION_ID
+        );
+    }
+
+    private boolean isLocationEnabled() {
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+                LocationManager.NETWORK_PROVIDER
+        );
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_ID) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getLastLocation();
+            }
+        }
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if (checkPermissions()) {
+            getLastLocation();
+        }
 
     }
 
@@ -294,10 +422,11 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
         NotificationManager notificationManager = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(1, notification);
-        */
+
 
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -311,5 +440,59 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
         return mDetector.onTouchEvent(event);
     }
 
+
+    class weatherTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            /* Showing the ProgressBar, Making the main design GONE */
+            findViewById(R.id.loader).setVisibility(View.VISIBLE);
+            findViewById(R.id.mainContainer).setVisibility(View.GONE);
+            findViewById(R.id.errorText).setVisibility(View.GONE);
+        }
+
+        protected String doInBackground(String... args) {
+            String response = HttpRequest.excuteGet("https://api.openweathermap.org/data/2.5/weather?lat=" + LAT + "&lon=" + LON + "&units=metric&appid=" + R.string.open_weather_maps_app_id);
+            return response;
+        }
+// Wetter updaten
+        @Override
+        protected void onPostExecute(String result) {
+
+
+            try {
+                JSONObject jsonObj = new JSONObject(result);
+                JSONObject main = jsonObj.getJSONObject("main");
+                JSONObject sys = jsonObj.getJSONObject("sys");
+                JSONObject weather = jsonObj.getJSONArray("weather").getJSONObject(0);
+
+                Long updatedAt = jsonObj.getLong("dt");
+                String updatedAtText = "Updated at: " + new SimpleDateFormat("dd/MM/yyyy hh:mm a", Locale.GERMAN).format(new Date(updatedAt * 1000));
+                String temp = main.getString("temp") + "°C";
+
+                String weatherDescription = weather.getString("description");
+                String address = jsonObj.getString("name") + ", " + sys.getString("country");
+
+
+
+                addressTxt.setText(address);
+                updated_atTxt.setText(updatedAtText);
+                statusTxt.setText(weatherDescription.toUpperCase());
+                tempTxt.setText(temp);
+
+
+                /* Views populated, Hiding the loader, Showing the main design */
+                findViewById(R.id.loader).setVisibility(View.GONE);
+                findViewById(R.id.mainContainer).setVisibility(View.VISIBLE);
+
+
+            } catch (JSONException e) {
+                findViewById(R.id.loader).setVisibility(View.GONE);
+                findViewById(R.id.errorText).setVisibility(View.VISIBLE);
+            }
+
+        }
+    }
 
 }

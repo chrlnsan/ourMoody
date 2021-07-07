@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/my_moody"
         android:layout_centerInParent="true"
-        android:contentDescription="@string/moodyOfTheUser"
+        android:contentDescription="@string/"
         android:src="@drawable/happy"
         />
 
@@ -38,7 +38,7 @@
        android:layout_alignParentBottom="true"
        android:layout_margin="16dp"
        android:background="@null"
-       android:contentDescription="@string/ourMoody_entry_button"
+       android:contentDescription="@string/"
        android:src="@drawable/ic_history_black"
        android:layout_alignParentRight="true" />
 

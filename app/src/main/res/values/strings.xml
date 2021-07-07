@@ -1,28 +1,27 @@
 <resources>
     <string name="app_name">ourMoody</string>
-    <string name="moodyOfTheUser">User\'s mood</string>
-    <string name="ourMoody_entry_button">ourMoody Entry Button</string>
-    <string name="addCommentButton">add Comment Button</string>
-    <string name="yesterday">Yesterday</string>
-    <string name="today">Today</string>
-    <string name="days_ago">days ago</string>
+    <string name="mood">Stimmung von Benutzer</string>
+    <string name="entryBtn">ourMoody Entry Button</string>
+    <string name="addCommentButton">Kommentar hinzufügen Button</string>
+    <string name="yesterday">Gestern</string>
+    <string name="today">Heute</string>
+    <string name="days_ago">Tage her</string>
 
     <!-- Scan -->
     <string name="resultDisplay">Result Display...</string>
     <string name="fingerScanButton">fingerScan</string>
-    <string name="show_comment_descr">show saved comment for entry</string>
-    <string name="change_city">change city</string>
+    <string name="show_comment_descr">zeige gespeichertes Kommentar</string>
     <string name="temperature">30° C</string>
     <string name="City">Graz</string>
-    <string name="open_weather_maps_app_id">a8de24b6eafaefc7e599fa726832d039</string>
-    <string name="place_not_found">The city you entered has not been found</string>
-    <string name="weather_icon">weather icon</string>
-    <string name="why">Why do you feel this way?</string>
+    <string name="open_weather_maps_app_id" translatable="false">a8de24b6eafaefc7e599fa726832d039</string>
+    <string name="weather_icon">Wetter icon</string>
+    <string name="why">Warum fühlst du dich so?</string>
 
     <!-- Notification -->
-    <string name="default_notification_channel_id">default</string>
+    <string name="default_notification_channel_id" translatable="false">default</string>
     <string name="weiter">Weiter</string>
     <string name="los">Jetzt geht\'s los!</string>
     <string name="skip">Skip</string>
-    <string name="change_notif">Notifications</string>
+    <string name="change_notif">Benachrichtigungen</string>
+    <string name="error">Oh nein! Ein Fehler ist passiert</string>
 </resources>

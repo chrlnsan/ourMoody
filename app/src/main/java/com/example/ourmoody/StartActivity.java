@@ -66,11 +66,11 @@ public class StartActivity extends AppCompatActivity {
         omList.add(new ScreenItem("ourMoody-Willkommen", "Hallo :) Willkommen zu ourMoody", R.drawable.happy));
         omList.add(new ScreenItem("ourMoody-Start", "Wir möchten dich mit ourMoody dabei unterstützen," +
                 " dass du mindestens 1x täglich einen Eintrag über Gefühlszustand gibst und darüber hinaus einen Überblick dazu bekommst. Zur einfachen Handhabung gibt es 5 moodies zur Auswahl", R.drawable.moodies));
-        omList.add(new ScreenItem("ourMoody-Entry", "Über diesen Screen trägst du deinen aktuellen Gefühlszustand ein.",));
-        omList.add(new ScreenItem("ourMoody-Comment", "Mittels einem Kommentar kannst du deinen Eintrag genauer definieren",));
-        omList.add(new ScreenItem("ourMoody-Teilen", "Wenn du magst kannst du deinen Eintrag auch mit jemandem über Soziale Medien, etc. teilen",));
+        omList.add(new ScreenItem("ourMoody-Entry", "Über diesen Screen trägst du deinen aktuellen Gefühlszustand ein.",R.drawable.screen_mood));
+        omList.add(new ScreenItem("ourMoody-Comment", "Mittels einem Kommentar kannst du deinen Eintrag genauer definieren",R.drawable.screen_comment));
+       // omList.add(new ScreenItem("ourMoody-Teilen", "Wenn du magst kannst du deinen Eintrag auch mit jemandem über Soziale Medien, etc. teilen",));
         omList.add(new ScreenItem("ourMoody-Entries","Auf diesem Entries-Screen findest du eine Sammlung deiner bisherigen Einträge." +
-                " Zudem gibt es mit jedem ourMoody-Eintrag einen kurzen Wetterberichts-Icon",));
+                " Zudem gibt es mit jedem ourMoody-Eintrag einen kurzen Wetterberichts-Icon",R.drawable.screen_overview));
 
         //Viewpager-Setup
         screenPager = findViewById(R.id.screen_viewpager);

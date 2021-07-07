@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ourMoody</string>
+    <string name="addCommentButton">Add Comment Button</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="today">Today</string>
+    <string name="days_ago">days ago</string>
+    <string name="resultDisplay">Result display</string>
+    <string name="fingerScanButton">fingerscan</string>
+    <string name="show_comment_descr">show saved comment</string>
+    <string name="temperature">30° C</string>
+    <string name="City">Graz</string>
+    <string name="weather_icon">weather icon</string>
+    <string name="why">Why do you feel this way?</string>
+    <string name="weiter">Next</string>
+    <string name="los">Let\'s go!</string>
+    <string name="skip">Skip</string>
+    <string name="change_notif">Notifications</string>
+    <string name="error">Uh oh! Something went wrong</string>
+    <string name="mood">Users mood</string>
+    <string name="entryBtn">entry button</string>
+    <string name="change_city">change city</string>
+</resources>

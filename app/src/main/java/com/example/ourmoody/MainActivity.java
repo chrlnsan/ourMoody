@@ -6,6 +6,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GestureDetectorCompat;
 
@@ -91,6 +92,8 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
     FusedLocationProviderClient mFusedLocationClient;
     TextView addressTxt, updated_atTxt, statusTxt, tempTxt;
 
+    private static shownotify;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
             }
         });
 
-        // See history of mood entries
+        // Zeigt alle bisherigen Mood-Eintraege an
         moodHistoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -167,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
 
 
 
-    /*
+    /**
     folgende Methoden entstehen automatisch nach GestureDetector implementation
      */
     @Override
@@ -194,7 +197,9 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
     public void onLongPress(MotionEvent e) {
 
     }
- // Stimmung auswählen durch rauf-/runterswipen
+
+    /** Stimmung auswählen durch rauf-/runterswipen
+     */
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
         if(e1.getY()-e2.getY()>50){
@@ -215,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
 
     }
 
-    //Location Methoden
+    /** Location Methoden */
     @SuppressLint("MissingPermission")
     private void getLastLocation(){
         if (checkPermissions()) {
@@ -315,7 +320,7 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
     parentRelativeLayout.setBackgroundResource(Constants.moodColorsArray[currentMoodIndex]);
     }
 
-    // Benachrichtigungen
+    /** Benachrichtigungen */
    /* private void scheduleAlarm(){
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 14);
@@ -333,7 +338,7 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
 
 
 
-    public static void scheduleAlarm(Context context, DayReciever.class, int hour, int min){
+    public static void scheduleAlarm (Context context, int hour, int min){
         Calendar calendar = Calendar.getInstance();
         Calendar setCalendar = Calendar.getInstance();
         setCalendar.set(Calendar.HOUR_OF_DAY, 14);
@@ -341,21 +346,21 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
         setCalendar.set(Calendar.SECOND, 00);
 
         if(setCalendar.before(calendar))
-        setCalendar.add(Calendar.DATE, 1);
+            setCalendar.add(Calendar.DATE, 1);
 
         AlarmManager alarmMgr;
 
-        //Receiver freischalten
+        /**Receiver freischalten */
         ComponentName receiver = new ComponentName(context, DayReciever.class);
         PackageManager pm = context.getPackageManager();
         pm.setComponentEnabledSetting(receiver,
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                 PackageManager.DONT_KILL_APP);
 
-        //das Pendingintent dient zum Starten einer Activity -> hier: activity_main zum eintragen der mood
+        /**das Pendingintent dient zum Starten einer Activity -> hier: activity_main zum eintragen der mood */
         Intent intent1 = new Intent(context, DayReciever.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context,1, intent1,
-                                    PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
         //hier wird die methode taeglich bzw. alle 24 Stunden aufgerufen
         am.setInexactRepeating(AlarmManager.RTC_WAKEUP, setCalendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
@@ -370,24 +375,32 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
         am.cancel(pendingIntent);
     }
 
-    // Alarm-/Benachrichtigungs-Trigger
+
+
+    /** Alarm-/Benachrichtigungs-Trigger */
     public class AlarmReceiver extends BroadcastReceiver{
         String TAG = "AlarmReceiver";
+        Intent intentTrigger = new Intent(getApplicationContext(), DayReciever.class);
+        PendingIntent BenachrichtigungsTrigger = PendingIntent.getBroadcast(getApplicationContext(),
+                0, intentTrigger, PendingIntent.FLAG_UPDATE_CURRENT);
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            JobScheduler jobScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
-            //Triggered die notification
-            jobScheduler.shownotify(context, MainActivity.class, "ourMoody-Reminder",
-                    "Wie fühlst du dich gerade? Trage deinen derzeitigen Zustand ein :)");
+         JobScheduler jobScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+            /** methode sollte notification-triggern
+         //   jobScheduler.shownotify(context, MainActivity.class, "ourMoody-Reminder",
+          //          "Wie fühlst du dich gerade? Trage deinen derzeitigen Zustand ein :)"); */
+
+            jobScheduler.shownotify(getApplicationContext(), MainActivity.class, "ourMoody-Reminder",
+                          "Wie fühlst du dich gerade? Trage deinen derzeitigen Zustand ein :)");
 
         }
     }
-
+*/
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public  void shownotify(Context context, Class<?> cls, String title, String content){
+    public static void shownotify(Context context, Class<?> cls, String title, String content){
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         Intent notificationIntent = new Intent(context, cls);
@@ -401,30 +414,16 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
                 1, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this,
-                getString(R.string.default_notification_channel_id));
+                R.string.default_notification_channel_id);
         Notification notification = builder.setContentTitle(title)
                 .setContentText(content).setAutoCancel(true)
                 .setSound(alarmSound).setSmallIcon(R.mipmap.ic_launcher_round)
                 .setContentIntent(pendingIntent).build();
 
-        /*
-        ----------
-        */
-
-
-/*
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-        Notification notification = builder.setContentTitle(title)
-                .setContentText(content).setAutoCancel(true)
-                .setSound(alarmSound).setSmallIcon(R.mipmap.ic_launcher_round)
-                .setContentIntent(pendingIntent).build();
 
         NotificationManager notificationManager = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(1, notification);
-
-
-
     }
 
 
@@ -456,7 +455,7 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
             String response = HttpRequest.excuteGet("https://api.openweathermap.org/data/2.5/weather?lat=" + LAT + "&lon=" + LON + "&units=metric&appid=" + R.string.open_weather_maps_app_id);
             return response;
         }
-// Wetter updaten
+/** Wetter updaten */
         @Override
         protected void onPostExecute(String result) {
 

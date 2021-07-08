@@ -61,11 +61,11 @@ public class StartActivity extends AppCompatActivity {
         tabIndicator = findViewById(R.id.tabIndicator);
         btn_animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.btn_animation);
 
-        //List-Screen Inhalt
+        //Inhalt der einzelnen List-Screens
         final List<ScreenItem> omList = new ArrayList<>();
         omList.add(new ScreenItem("ourMoody-Willkommen", "Hallo :) Willkommen zu ourMoody", R.drawable.happy));
         omList.add(new ScreenItem("ourMoody-Start", "Wir möchten dich mit ourMoody dabei unterstützen," +
-                " dass du mindestens 1x täglich einen Eintrag über Gefühlszustand gibst und darüber hinaus einen Überblick dazu bekommst. Zur einfachen Handhabung gibt es 5 moodies zur Auswahl", R.drawable.moodies));
+                " dass du mindestens 1x täglich einen Eintrag über Gefühlszustand gibst und darüber hinaus einen Überblick dazu bekommst. Zur einfachen Handhabung gibt es 5 moodies zur Auswahl", R.drawable.btn_fingerscan));
         omList.add(new ScreenItem("ourMoody-Entry", "Über diesen Screen trägst du deinen aktuellen Gefühlszustand ein.",R.drawable.screen_mood));
         omList.add(new ScreenItem("ourMoody-Comment", "Mittels einem Kommentar kannst du deinen Eintrag genauer definieren",R.drawable.screen_comment));
        // omList.add(new ScreenItem("ourMoody-Teilen", "Wenn du magst kannst du deinen Eintrag auch mit jemandem über Soziale Medien, etc. teilen",));

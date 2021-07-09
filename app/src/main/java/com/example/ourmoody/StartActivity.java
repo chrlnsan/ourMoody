@@ -68,7 +68,7 @@ public class StartActivity extends AppCompatActivity {
                 " dass du mindestens 1x täglich einen Eintrag über Gefühlszustand gibst und darüber hinaus einen Überblick dazu bekommst. Zur einfachen Handhabung gibt es 5 moodies zur Auswahl", R.drawable.btn_fingerscan));
         omList.add(new ScreenItem("ourMoody-Entry", "Über diesen Screen trägst du deinen aktuellen Gefühlszustand ein.",R.drawable.screen_mood));
         omList.add(new ScreenItem("ourMoody-Comment", "Mittels einem Kommentar kannst du deinen Eintrag genauer definieren",R.drawable.screen_comment));
-       // omList.add(new ScreenItem("ourMoody-Teilen", "Wenn du magst kannst du deinen Eintrag auch mit jemandem über Soziale Medien, etc. teilen",));
+        omList.add(new ScreenItem("ourMoody-Notification", "Wenn du magst kannst du eine Uhrzeit einstellen, zu der du täglich erinnert wirst deine Gefühlslage zu dokumentieren",R.drawable.screen_settings));
         omList.add(new ScreenItem("ourMoody-Entries","Auf diesem Entries-Screen findest du eine Sammlung deiner bisherigen Einträge." +
                 " Zudem gibt es mit jedem ourMoody-Eintrag einen kurzen Wetterberichts-Icon",R.drawable.screen_overview));
 

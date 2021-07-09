@@ -29,9 +29,16 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Entries" />
+        <activity android:name=".Entries" >
+            <intent-filter>
+            <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <activity android:name=".FingerScan_Login"/>
         <activity android:name=".StartActivity"/>
+
+
         <activity android:name=".TimePicker"/>
 
 

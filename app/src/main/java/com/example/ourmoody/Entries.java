@@ -211,8 +211,6 @@ public class Entries extends AppCompatActivity {
     }
 
 
-
-
     class weatherTask extends AsyncTask<String, Void, String> {
         @Override
         protected void onPreExecute() {

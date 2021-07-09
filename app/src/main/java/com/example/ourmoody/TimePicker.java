@@ -5,8 +5,10 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,19 +16,16 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
 
-import java.sql.Time;
 import java.text.DateFormat;
 import java.util.Calendar;
-import java.util.zip.Inflater;
 
 public class TimePicker extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener{
     private Button timepicker_btn;
     private TextView tv;
     private Button cancel;
-    android.widget.TimePicker timePicker;
+    private long dateInMillis;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,13 +39,14 @@ public class TimePicker extends AppCompatActivity implements TimePickerDialog.On
         int min = (Calendar.MINUTE);
         android.widget.TimePicker view;
         view = findViewById(R.id.timepicker);
+        dateInMillis = Calendar.getInstance().getTimeInMillis();
+        Context context = getApplicationContext();
 
         timepicker_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            TimePickerDialog tpd;
-            tpd= new TimePickerDialog(view,hour,min);
-            tpd.show();
+                DialogFragment timePicker = new TimePickerFragment();
+                timePicker.show(getSupportFragmentManager(), "time picker");
             }
 
                                           });
@@ -57,6 +57,7 @@ public class TimePicker extends AppCompatActivity implements TimePickerDialog.On
                 cancelAlarm();
             }
         });
+
     }
     @Override
     public void onTimeSet(android.widget.TimePicker view, int hourOfDay, int minute) {
@@ -66,6 +67,7 @@ public class TimePicker extends AppCompatActivity implements TimePickerDialog.On
         c.set(Calendar.SECOND, 0);
         updateTimeText(c);
         startAlarm(c);
+
     }
 
 
@@ -82,15 +84,16 @@ public class TimePicker extends AppCompatActivity implements TimePickerDialog.On
         if (c.before(Calendar.getInstance())) {
             c.add(Calendar.DATE, 1);
         }
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, dateInMillis, pendingIntent);
 
-        Calendar setCalendar = Calendar.getInstance();
         //hier wird die methode taeglich bzw. alle 24 Stunden aufgerufen
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, setCalendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
     }
     private void cancelAlarm() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlertReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 2, intent, 0);
         alarmManager.cancel(pendingIntent);
         tv.setText("Benachrichtigung abgebrochen");
     }

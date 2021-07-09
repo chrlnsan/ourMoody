@@ -16,6 +16,7 @@ public class NotificationHelper extends ContextWrapper {
     public static final String channelID = "channelID";
     public static final String channelName = "Channel Name";
     private NotificationManager mManager;
+    Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
     public NotificationHelper(Context base) {
         super(base);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -34,12 +35,10 @@ public class NotificationHelper extends ContextWrapper {
         return mManager;
     }
     public NotificationCompat.Builder getChannelNotification() {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), channelID)
-                .setContentTitle("Zeit für Moody!")
-                .setContentText("Wie fühlst du dich gerade? Trage deinen derzeitigen Zustand ein :)")
+        return new NotificationCompat.Builder(getApplicationContext(), channelID)
+                .setContentTitle("Zeit für ourMoody!")
+                .setContentText("Trage jetzt deine Stimmung ein.")
                 .setSmallIcon(R.drawable.ic_notif);
-        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        builder.setSound(alarmSound);
-        return builder;
+
     }
-}
+    }

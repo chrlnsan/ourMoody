@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-feature android:name="android.hardware.fingerprint" />
 
     <application
@@ -34,19 +35,10 @@
         <activity android:name=".TimePicker"/>
 
 
-        <receiver
-            android:name=".DayReciever"
-            android:enabled="true"
-            android:exported="true"
-            android:permission="true" />
 
         <receiver
-            android:name=".AlertReceiver"
-            android:enabled="true"
-            android:exported="true"
-            android:permission="true">
+            android:name=".AlertReceiver" />
 
-        </receiver>
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"

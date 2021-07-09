@@ -92,18 +92,11 @@ public class MainActivity extends AppCompatActivity implements GestureDetector.O
     private int currentDate;
     private int currentMoodIndex;
     private String currentComment;
-    private TextView errorText;
 
-    private TextView tv_notification;
-    private Button timepicker_btn;
-    private Button cancel_btn;
-private ProgressBar loader;
-    private CardView mainContainer;
 
-    private String LAT, LON;
 
-    FusedLocationProviderClient mFusedLocationClient;
-    TextView addressTxt, updated_atTxt, statusTxt, tempTxt;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,23 +119,7 @@ private ProgressBar loader;
         currentMoodIndex = mPreferences.getInt(SharedPreferencesHelp.KEY_CURRENT_MOODY, 3);
         currentComment = mPreferences.getString(SharedPreferencesHelp.KEY_CURRENT_COMMENT," ");
 
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
-        addressTxt = findViewById(R.id.city);
-        updated_atTxt = findViewById(R.id.updated_field);
-        statusTxt = findViewById(R.id.details);
-        tempTxt = findViewById(R.id.temp);
-        errorText = findViewById(R.id.errorText);
-        loader = findViewById(R.id.loader);
-        mainContainer = findViewById(R.id.mainContainer);
-
-        tv_notification = findViewById(R.id.tv_notification);
-        cancel_btn = findViewById(R.id.cancel_btn);
-        timepicker_btn = findViewById(R.id.timepicker_btn);
-
         changeMoody(currentMoodIndex);
-
-
 
 
         //Adding Comments to describe mood better
@@ -183,25 +160,7 @@ private ProgressBar loader;
         });
 
     }
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.settings, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        if (id==R.id.settings){
-            setContentView(R.layout.timepicker);
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
- */
 
     @Override
     public boolean onTouchEvent(MotionEvent event){
@@ -236,6 +195,11 @@ private ProgressBar loader;
     public void onLongPress(MotionEvent e) {
 
     }
+    //Change Mood Methode
+    private void changeMoody (int currentMoodIndex){
+        moodImageView.setImageResource(Constants.moodImagesArray[currentMoodIndex]);
+        parentRelativeLayout.setBackgroundResource(Constants.moodColorsArray[currentMoodIndex]);
+    }
  // Stimmung auswählen durch rauf-/runterswipen
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
@@ -255,292 +219,8 @@ private ProgressBar loader;
 
         } return true;
 
-    }
+    }}
 
-    /*
-    //Location Methoden
-    @SuppressLint("MissingPermission")
-    private void getLastLocation(){
-        if (checkPermissions()) {
-            if (isLocationEnabled()) {
-                mFusedLocationClient.getLastLocation().addOnCompleteListener(
-                        new OnCompleteListener<Location>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Location> task) {
-                                Location location = task.getResult();
-                                if (location == null) {
-                                    requestNewLocationData();
-                                } else {
-                                    LAT = location.getLatitude()+"";
-                                    LON = location.getLongitude()+"";
-                                }
-                            }
-                        }
-                );
-            } else {
-                Toast.makeText(this, "Turn on location", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                startActivity(intent);
-            }
-        } else {
-            requestPermissions();
-        }
-    }
-    @SuppressLint("MissingPermission")
-    private void requestNewLocationData(){
-
-        LocationRequest mLocationRequest = new LocationRequest();
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        mLocationRequest.setInterval(0);
-        mLocationRequest.setFastestInterval(0);
-        mLocationRequest.setNumUpdates(1);
-
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        mFusedLocationClient.requestLocationUpdates(
-                mLocationRequest, mLocationCallback,
-                Looper.myLooper()
-        );
-
-    }
-    private LocationCallback mLocationCallback = new LocationCallback() {
-        @Override
-        public void onLocationResult(LocationResult locationResult) {
-            Location mLastLocation = locationResult.getLastLocation();
-         LAT =   mLastLocation.getLatitude()+"";
-         LON = mLastLocation.getLongitude()+"";
-        }
-    };
-    private boolean checkPermissions() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        }
-        return false;
-    }
-
-    private void requestPermissions() {
-        ActivityCompat.requestPermissions(
-                this,
-                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
-                PERMISSION_ID
-        );
-    }
-
-    private boolean isLocationEnabled() {
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
-                LocationManager.NETWORK_PROVIDER
-        );
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PERMISSION_ID) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                getLastLocation();
-            }
-        }
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        if (checkPermissions()) {
-            getLastLocation();
-        }
-
-    }
-
-
-
-     */
-    class weatherTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            //Showing the ProgressBar, Making the main design GONE
-            /* loader.setVisibility(View.VISIBLE);
-           mainContainer.setVisibility(View.GONE);
-
-             */
-         //   errorText.setVisibility(View.GONE);
-
-
-        }
-
-        protected String doInBackground(String... args) {
-            String response = HttpRequest.excuteGet("https://api.openweathermap.org/data/2.5/weather?lat=" + LAT + "&lon=" + LON + "&units=metric&appid=" + R.string.open_weather_maps_app_id);
-            return response;
-        }
-        // Wetter updaten
-        @Override
-        protected void onPostExecute(String result) {
-
-
-            try {
-                JSONObject jsonObj = new JSONObject(result);
-                JSONObject main = jsonObj.getJSONObject("main");
-                JSONObject sys = jsonObj.getJSONObject("sys");
-                JSONObject weather = jsonObj.getJSONArray("weather").getJSONObject(0);
-
-                Long updatedAt = jsonObj.getLong("dt");
-                String updatedAtText = "Updated at: " + new SimpleDateFormat("dd/MM/yyyy hh:mm a", Locale.GERMAN).format(new Date(updatedAt * 1000));
-                String temp = main.getString("temp") + "°C";
-
-                String weatherDescription = weather.getString("description");
-                String address = jsonObj.getString("name") + ", " + sys.getString("country");
-
-
-
-                addressTxt.setText(address);
-                updated_atTxt.setText(updatedAtText);
-                statusTxt.setText(weatherDescription.toUpperCase());
-                tempTxt.setText(temp);
-
-
-                // Views populated, Hiding the loader, Showing the main design
-               /* loader.setVisibility(View.GONE);
-                findViewById(R.id.mainContainer).setVisibility(View.VISIBLE);
-
-
-
-                */
-
-
-            } catch (JSONException e) {
-               /* findViewById(R.id.loader).setVisibility(View.GONE);
-                errorText.setVisibility(View.VISIBLE);
-                           */
-                //errorText.setText(R.string.error);
-            }
-
-        }
-    }
-    //Change Mood Methode
-    private void changeMoody (int currentMoodIndex){
-    moodImageView.setImageResource(Constants.moodImagesArray[currentMoodIndex]);
-    parentRelativeLayout.setBackgroundResource(Constants.moodColorsArray[currentMoodIndex]);
-    }
-
-    //Benachrichtigungen
-
-
-
-    // Benachrichtigungen
-   /* private void scheduleAlarm(){
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 14);
-        calendar.set(Calendar.MINUTE, 00);
-        calendar.set(Calendar.SECOND, 00);
-
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent (this, DayReciever.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        if(alarmManager!=null) {
-            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-        }
-
-        }*/
-
-/* test!!!!!!!!
-
-    public static void scheduleAlarm(Context context, int hour, int min){
-        Calendar calendar = Calendar.getInstance();
-        Calendar setCalendar = Calendar.getInstance();
-        setCalendar.set(Calendar.HOUR_OF_DAY, 14);
-        setCalendar.set(Calendar.MINUTE, 00);
-        setCalendar.set(Calendar.SECOND, 00);
-
-        if(setCalendar.before(calendar))
-        setCalendar.add(Calendar.DATE, 1);
-
-        AlarmManager alarmMgr;
-
-        //Receiver freischalten
-        ComponentName receiver = new ComponentName(context, DayReciever.class);
-        PackageManager pm = context.getPackageManager();
-        pm.setComponentEnabledSetting(receiver,
-                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                PackageManager.DONT_KILL_APP);
-
-        //das Pendingintent dient zum Starten einer Activity -> hier: activity_main zum eintragen der mood
-        Intent intent1 = new Intent(context, DayReciever.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context,1, intent1,
-                                    PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
-        //hier wird die methode taeglich bzw. alle 24 Stunden aufgerufen
-        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, setCalendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-
-
-        //zum Abbrechen von bereits geplanten Erinnerungen/Reminder/Benachrichtigungen
-        am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent  intent2 = new Intent(String.valueOf(DayReciever.class));
-        PendingIntent   pm2 = PendingIntent.getBroadcast(
-                context.getApplicationContext(), 1, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        am.cancel(pendingIntent);
-    }
-
-    // Alarm-/Benachrichtigungs-Trigger
-    public class AlarmReceiver extends BroadcastReceiver{
-        String TAG = "AlarmReceiver";
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            JobScheduler jobScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
-            //Triggered die notification
-            jobScheduler.shownotify(context, MainActivity.class, "ourMoody-Reminder",
-                    "Wie fühlst du dich gerade? Trage deinen derzeitigen Zustand ein :)");
-
-        }
-    }
-
-
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public  void shownotify(Context context, Class<?> cls, String title, String content){
-        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-
-        Intent notificationIntent = new Intent(context, cls);
-        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addParentStack(cls);
-        stackBuilder.addNextIntent(notificationIntent);
-
-        PendingIntent pendingIntent = stackBuilder.getPendingIntent(
-                1, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this,
-                getString(R.string.default_notification_channel_id));
-        Notification notification = builder.setContentTitle(title)
-                .setContentText(content).setAutoCancel(true)
-                .setSound(alarmSound).setSmallIcon(R.mipmap.ic_launcher_round)
-                .setContentIntent(pendingIntent).build();
-
-        /*
-        ----------
-        */
-
-
-/*
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-        Notification notification = builder.setContentTitle(title)
-                .setContentText(content).setAutoCancel(true)
-                .setSound(alarmSound).setSmallIcon(R.mipmap.ic_launcher_round)
-                .setContentIntent(pendingIntent).build();
-
-        NotificationManager notificationManager = (NotificationManager)
-                context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(1, notification);
-
-
- */
-
-
-    }
 
 
 

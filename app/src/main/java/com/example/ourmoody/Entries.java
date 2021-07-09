@@ -17,6 +17,8 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -24,6 +26,7 @@ import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -44,7 +47,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-public class Entries extends AppCompatActivity implements  TimePickerDialog.OnTimeSetListener{
+public class Entries extends AppCompatActivity {
     private static final String TAG = "Entries";
 
     private RecyclerView moodyRecyclerview;
@@ -63,6 +66,7 @@ public class Entries extends AppCompatActivity implements  TimePickerDialog.OnTi
     // Elemente von Wetterfunktion
     TextView addressTxt, updated_atTxt, statusTxt, tempTxt;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -79,20 +83,21 @@ public class Entries extends AppCompatActivity implements  TimePickerDialog.OnTi
         moodyRecyclerview = findViewById(R.id.recycler_ourMoodys);
         moodyRecyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true));
 
+
         for(int i=0; i<currentDate; i++){
             moods.add(mPreferences.getInt("KEY_MOOD" + i, 3));
             comments.add(mPreferences.getString("KEY_COMMENT"+ i, ""));
         }
 
-        // Location abrufen
-        getLastLocation();
 
-        // Wetter von Location abrufen
-        new Entries.weatherTask().execute();
 
         // Elemente von item_mood befüllen
         ourMoodyAdapter = new ourMoodyAdapter(this, currentDate, moods, comments);
         moodyRecyclerview.setAdapter(ourMoodyAdapter);
+        // Location abrufen
+        getLastLocation();
+        // Wetter von Location abrufen
+        new weatherTask().execute();
     }
 
     @Override
@@ -205,10 +210,7 @@ public class Entries extends AppCompatActivity implements  TimePickerDialog.OnTi
 
     }
 
-    @Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
-    }
 
 
     class weatherTask extends AsyncTask<String, Void, String> {
@@ -216,22 +218,15 @@ public class Entries extends AppCompatActivity implements  TimePickerDialog.OnTi
         protected void onPreExecute() {
             super.onPreExecute();
 
-            //Showing the ProgressBar, Making the main design GONE
-            /* loader.setVisibility(View.VISIBLE);
-           mainContainer.setVisibility(View.GONE);
-
-             */
-            //   errorText.setVisibility(View.GONE);
-
-
         }
+
 
         protected String doInBackground(String... args) {
             String response = HttpRequest.excuteGet("https://api.openweathermap.org/data/2.5/weather?lat=" + LAT + "&lon=" + LON + "&units=metric&appid=" + R.string.open_weather_maps_app_id);
             return response;
         }
         // Wetter updaten
-        @Override
+
         protected void onPostExecute(String result) {
 
 
@@ -256,20 +251,22 @@ public class Entries extends AppCompatActivity implements  TimePickerDialog.OnTi
                 tempTxt.setText(temp);
 
 
+
                 // Views populated, Hiding the loader, Showing the main design
-               /* loader.setVisibility(View.GONE);
-                findViewById(R.id.mainContainer).setVisibility(View.VISIBLE);
-
-
-
+                /*
+               loader.setVisibility(View.GONE);
+                mainContainer.setVisibility(View.VISIBLE);
                 */
 
 
+
+
+
             } catch (JSONException e) {
-               /* findViewById(R.id.loader).setVisibility(View.GONE);
-                errorText.setVisibility(View.VISIBLE);
-                           */
-                //errorText.setText(R.string.error);
+               /*loader.setVisibility(View.GONE);
+                errorTxt.setVisibility(View.VISIBLE);
+                */
+
             }
 
         }

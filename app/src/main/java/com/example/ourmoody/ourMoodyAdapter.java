@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -88,8 +87,7 @@ public class ourMoodyAdapter extends RecyclerView.Adapter<ourMoodyAdapter.MoodVi
         public MoodViewHolder(View itemView) {
             super(itemView);
 
-            leftFrameLayout = itemView.findViewById(R.id.left_frame_layout);
-            rightFrameLayout = itemView.findViewById(R.id.right_frame_layout);
+            leftFrameLayout = itemView.findViewById(R.id.frame_layout);
             commentButton = itemView.findViewById(R.id.btn_show_comment);
             daysTextView = itemView.findViewById(R.id.tv_days);
         }

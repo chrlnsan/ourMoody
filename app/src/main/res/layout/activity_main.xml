@@ -8,13 +8,21 @@
     android:id="@+id/parent_relative_layout"
     android:background="@color/colorHappy"
     >
-
+<!--
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment2"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph" />
+-->
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/my_moody"
         android:layout_centerInParent="true"
-        android:contentDescription="@string/"
+        android:contentDescription="@string/mood"
         android:src="@drawable/happy"
         />
 
@@ -38,7 +46,7 @@
        android:layout_alignParentBottom="true"
        android:layout_margin="16dp"
        android:background="@null"
-       android:contentDescription="@string/"
+       android:contentDescription="@string/entryBtn"
        android:src="@drawable/ic_history_black"
        android:layout_alignParentRight="true" />
 

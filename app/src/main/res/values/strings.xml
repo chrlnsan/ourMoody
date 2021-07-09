@@ -24,4 +24,8 @@
     <string name="skip">Skip</string>
     <string name="change_notif">Benachrichtigungen</string>
     <string name="error">Oh nein! Ein Fehler ist passiert</string>
+    <string name="keine_benachrichtigungen">Keine Benachrichtigungen</string>
+    <string name="timepicker_open">Timepicker öffnen</string>
+    <string name="benachrichtigung_cancel">Benachrichtigung löschen</string>
+    <string name="change_city">Stadt ändern</string>
 </resources>

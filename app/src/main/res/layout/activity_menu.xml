@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|center_vertical"
         android:background="@null"
-        android:contentDescription="@string/"
+        android:contentDescription="@string/mood"
         android:src="@drawable/ic_history_black" />
 
     <ImageButton

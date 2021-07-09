@@ -20,4 +20,7 @@
     <string name="mood">Users mood</string>
     <string name="entryBtn">entry button</string>
     <string name="change_city">change city</string>
+    <string name="keine_benachrichtigungen">No Notifications</string>
+    <string name="timepicker_open">Open Timepicker</string>
+    <string name="benachrichtigung_cancel">Delete Notification</string>
 </resources>

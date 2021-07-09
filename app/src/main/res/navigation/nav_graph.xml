@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/startActivity2">
+
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.example.ourmoody.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main" >
+        <action
+            android:id="@+id/action_mainActivity_to_entries"
+            app:destination="@id/entries"
+            app:enterAnim="@anim/fragment_fade_enter" />
+    </activity>
+    <activity
+        android:id="@+id/fingerScan_Login"
+        android:name="com.example.ourmoody.FingerScan_Login"
+        android:label="FingerScan_Login" >
+        <action
+            android:id="@+id/action_fingerScan_Login_to_mainActivity"
+            app:destination="@id/mainActivity"
+            app:enterAnim="@anim/fragment_fade_enter" />
+    </activity>
+    <activity
+        android:id="@+id/entries"
+        android:name="com.example.ourmoody.Entries"
+        android:label="Entries" />
+    <activity
+        android:id="@+id/startActivity2"
+        android:name="com.example.ourmoody.StartActivity"
+        android:label="StartActivity" >
+        <action
+            android:id="@+id/action_startActivity2_to_mainActivity"
+            app:destination="@id/mainActivity" />
+    </activity>
+</navigation>

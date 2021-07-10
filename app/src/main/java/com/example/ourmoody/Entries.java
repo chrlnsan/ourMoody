@@ -15,6 +15,7 @@ import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +27,7 @@ import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuView;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -39,6 +41,10 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import org.asynchttpclient.AsyncHttpClient;
+import org.asynchttpclient.BoundRequestBuilder;
+import org.asynchttpclient.Dsl;
+import org.asynchttpclient.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -46,6 +52,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 public class Entries extends AppCompatActivity {
     private static final String TAG = "Entries";
@@ -57,6 +65,7 @@ public class Entries extends AppCompatActivity {
     private ArrayList<Integer> moods = new ArrayList<>();
     private ArrayList<String> comments = new ArrayList<>();
     private int currentDate;
+    private static String API_KEY = "a8de24b6eafaefc7e599fa726832d039";
 
     //für Location
     int PERMISSION_ID = 44;
@@ -64,13 +73,14 @@ public class Entries extends AppCompatActivity {
     private String LAT, LON;
 
     // Elemente von Wetterfunktion
-    TextView addressTxt, updated_atTxt, statusTxt, tempTxt, loader;
+    private TextView addressTxt, updated_atTxt, statusTxt, tempTxt;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.entries);
+        //setContentView(R.layout.it);
         Log.d(TAG, "onCreate: Entries");
 
 
@@ -83,7 +93,19 @@ public class Entries extends AppCompatActivity {
         moodyRecyclerview = findViewById(R.id.recycler_ourMoodys);
         moodyRecyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true));
 
-        loader = findViewById(R.id.loader);
+
+
+
+/*
+        updated_atTxt = (TextView) findViewById(R.id.updated_field);
+        statusTxt = (TextView)findViewById(R.id.details);
+        tempTxt = (TextView)findViewById(R.id.temp);
+        addressTxt = (TextView) findViewById(R.id.address);
+
+
+
+ */
+
 
         for(int i=0; i<currentDate; i++){
             moods.add(mPreferences.getInt("KEY_MOOD" + i, 3));
@@ -103,9 +125,9 @@ public class Entries extends AppCompatActivity {
         //new weatherTask().execute();
         //System.out.println(new weatherTask().execute());
 
-        System.out.println("weatherTask API call");
-        String response = new weatherTask().doInBackground();
-        System.out.println(response);
+        //System.out.println("weatherTask API call");
+        //String response = new weatherTask().doInBackground();
+        //System.out.println(response);
         // String resp = doInBackground();
         // onPostexecute(resp);
 
@@ -141,9 +163,14 @@ public class Entries extends AppCompatActivity {
                                 Location location = task.getResult();
                                 if (location == null) {
                                     requestNewLocationData();
+                                    System.out.println("HERE");
                                 } else {
                                     LAT = location.getLatitude()+"";
                                     LON = location.getLongitude()+"";
+                                    System.out.println(LAT +" "+ " "+LON);
+                                    System.out.println("weatherTask API call");
+                                     new weatherTask().execute();
+
                                 }
                             }
                         }
@@ -176,9 +203,18 @@ public class Entries extends AppCompatActivity {
     private LocationCallback mLocationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {
+            System.out.println("##### callback lat lon");
+
             Location mLastLocation = locationResult.getLastLocation();
             LAT =   mLastLocation.getLatitude()+"";
             LON = mLastLocation.getLongitude()+"";
+
+            System.out.println("##### callback lat lon");
+
+            // TODO .execute
+            //System.out.println("weatherTask API call");
+            //String response = new weatherTask().doInBackground();
+            //System.out.println(response);
         }
     };
     private boolean checkPermissions() {
@@ -233,30 +269,44 @@ public class Entries extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
 
+
         }
 
         // TODO Response
         protected String doInBackground(String... args) {
-            String response = HttpRequest.excuteGet("https://api.openweathermap.org/data/2.5/weather?lat=" + LAT + "&lon=" + LON + "&units=metric&appid=" + R.string.open_weather_maps_app_id);
 
-            System.out.println(response);
 
-            return response;
+            System.out.println("##### .execute calls doInBackground");
+            System.out.println("https://api.openweathermap.org/data/2.5/weather?lat=" + LAT + "&lon=" + LON + "&units=metric&appid=" + API_KEY);
+
+
+            String response;
+            try {AsyncHttpClient client = Dsl.asyncHttpClient();
+                BoundRequestBuilder getRequest = client.prepareGet("https://api.openweathermap.org/data/2.5/weather?lat=" + LAT + "&lon=" + LON + "&units=metric&appid=" + API_KEY);
+                Future<Response> responseFuture = getRequest.execute();
+              response =  responseFuture.get().getResponseBody();
+              System.out.println(response);
+              System.out.println("making call");
+              return response;
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            //  String response = HttpRequest.excuteGet("https://api.openweathermap.org/data/2.5/weather?lat=" + LAT + "&lon=" + LON + "&units=metric&appid=" + API_KEY);
+
+
+
+            //System.out.println(response);
+
+            return null;
         }
         // Wetter updaten
 
         protected void onPostExecute(String result) {
 
 
-            /*
-            *
-            * {
-            *   "location": "Fehring",
-            *   "degrees": 30;
-            *   "main": "dfd"
-            * }
-            *
-            * */
+
 
             try {
                 JSONObject jsonObj = new JSONObject(result);
@@ -273,18 +323,16 @@ public class Entries extends AppCompatActivity {
 
 
 
+                //Hier würden die Elemente von item_mood mit Wetterdaten befüllt werden
+                /*
                 addressTxt.setText(address);
                 updated_atTxt.setText(updatedAtText);
                 statusTxt.setText(weatherDescription.toUpperCase());
                 tempTxt.setText(temp);
 
+                 */
 
 
-                // Views populated, Hiding the loader, Showing the main design
-                /*
-               loader.setVisibility(View.GONE);
-                mainContainer.setVisibility(View.VISIBLE);
-                */
 
 
 

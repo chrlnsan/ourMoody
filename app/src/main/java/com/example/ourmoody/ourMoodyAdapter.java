@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ourmoody.util.Constants;
@@ -23,17 +24,21 @@ public class ourMoodyAdapter extends RecyclerView.Adapter<ourMoodyAdapter.MoodVi
     private ArrayList<Integer> omMoods;
     private ArrayList<String> omComments;
 
+
     // Constructor
     public ourMoodyAdapter(Context context, int currentDay, ArrayList<Integer> moods, ArrayList<String> comments) {
         this.omContext = context;
         this.omCurrentDate = currentDay;
         this.omMoods = moods;
         this.omComments = comments;
+
+
     }
 
     @Override
     public MoodViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(omContext).inflate(R.layout.item_mood, viewGroup, false);
+
         return new MoodViewHolder(view);
     }
 
@@ -70,6 +75,7 @@ public class ourMoodyAdapter extends RecyclerView.Adapter<ourMoodyAdapter.MoodVi
         } else {
             moodViewHolder.commentButton.setVisibility(View.INVISIBLE);
         }
+
     }
 
     @Override
@@ -78,9 +84,10 @@ public class ourMoodyAdapter extends RecyclerView.Adapter<ourMoodyAdapter.MoodVi
         return omMoods.size();
     }
 
+
+
     public class MoodViewHolder extends RecyclerView.ViewHolder {
         private FrameLayout leftFrameLayout;
-        private FrameLayout rightFrameLayout;
         private ImageButton commentButton;
         private TextView daysTextView;
 
@@ -90,6 +97,7 @@ public class ourMoodyAdapter extends RecyclerView.Adapter<ourMoodyAdapter.MoodVi
             leftFrameLayout = itemView.findViewById(R.id.frame_layout);
             commentButton = itemView.findViewById(R.id.btn_show_comment);
             daysTextView = itemView.findViewById(R.id.tv_days);
+
         }
     }
 }

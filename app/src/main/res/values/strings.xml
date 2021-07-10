@@ -13,7 +13,6 @@
     <string name="show_comment_descr">zeige gespeichertes Kommentar</string>
     <string name="temperature">30° C</string>
     <string name="City">Graz</string>
-    <string name="open_weather_maps_app_id" translatable="false">a8de24b6eafaefc7e599fa726832d039</string>
     <string name="weather_icon">Wetter icon</string>
     <string name="why">Warum fühlst du dich so?</string>
 

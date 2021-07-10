@@ -64,7 +64,7 @@ public class Entries extends AppCompatActivity {
     private String LAT, LON;
 
     // Elemente von Wetterfunktion
-    TextView addressTxt, updated_atTxt, statusTxt, tempTxt;
+    TextView addressTxt, updated_atTxt, statusTxt, tempTxt, loader;
 
 
     @Override
@@ -83,6 +83,7 @@ public class Entries extends AppCompatActivity {
         moodyRecyclerview = findViewById(R.id.recycler_ourMoodys);
         moodyRecyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true));
 
+        loader = findViewById(R.id.loader);
 
         for(int i=0; i<currentDate; i++){
             moods.add(mPreferences.getInt("KEY_MOOD" + i, 3));
@@ -94,10 +95,22 @@ public class Entries extends AppCompatActivity {
         // Elemente von item_mood befüllen
         ourMoodyAdapter = new ourMoodyAdapter(this, currentDate, moods, comments);
         moodyRecyclerview.setAdapter(ourMoodyAdapter);
+
         // Location abrufen
         getLastLocation();
+
         // Wetter von Location abrufen
-        new weatherTask().execute();
+        //new weatherTask().execute();
+        //System.out.println(new weatherTask().execute());
+
+        System.out.println("weatherTask API call");
+        String response = new weatherTask().doInBackground();
+        System.out.println(response);
+        // String resp = doInBackground();
+        // onPostexecute(resp);
+
+
+
     }
 
     @Override
@@ -183,7 +196,6 @@ public class Entries extends AppCompatActivity {
                 PERMISSION_ID
         );
     }
-
     private boolean isLocationEnabled() {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
@@ -212,21 +224,39 @@ public class Entries extends AppCompatActivity {
 
 
     class weatherTask extends AsyncTask<String, Void, String> {
+
+        weatherTask() {
+
+        }
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
 
         }
 
-
+        // TODO Response
         protected String doInBackground(String... args) {
             String response = HttpRequest.excuteGet("https://api.openweathermap.org/data/2.5/weather?lat=" + LAT + "&lon=" + LON + "&units=metric&appid=" + R.string.open_weather_maps_app_id);
+
+            System.out.println(response);
+
             return response;
         }
         // Wetter updaten
 
         protected void onPostExecute(String result) {
 
+
+            /*
+            *
+            * {
+            *   "location": "Fehring",
+            *   "degrees": 30;
+            *   "main": "dfd"
+            * }
+            *
+            * */
 
             try {
                 JSONObject jsonObj = new JSONObject(result);
